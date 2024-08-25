@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blog.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.site.blog.my.core.entity.AdminUser">
+        <id column="user_id" jdbcType="BIGINT" property="userId" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        user_id, account, nick_name, password, email, phone
+    </sql>
+    <insert id="insertUser" parameterType="com.blog.entity.User">
+        insert into users (user_id, account, nick_name, password, email, phone) values (#{userId},#{account},#{nickName},#{password},#{email},#{phone})
+    </insert>
+    <update id="updateUser" parameterType="com.blog.entity.User">
+        update users set user_id = #{userId}, account = #{account},nick_name = #{nickName},email = #{email}, phone = #{phone}
+    </update>
+    <delete id="deleteByEmail" parameterType="com.blog.entity.User">
+        delete from users where email = #{email}
+    </delete>
+    <select id="findByEmail" parameterType="com.blog.entity.User">
+        select
+        <include refid="Base_Column_List" />
+            from users where email = #{email}
+    </select>
+</mapper>
