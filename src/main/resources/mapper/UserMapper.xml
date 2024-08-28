@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.blog.mapper.UserMapper">
 
-    <resultMap id="BaseResultMap" type="com.site.blog.my.core.entity.AdminUser">
+    <resultMap id="BaseResultMap" type="com.blog.entity.User">
         <id column="user_id" jdbcType="BIGINT" property="userId" />
         <result column="account" jdbcType="VARCHAR" property="account" />
         <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
@@ -20,10 +20,10 @@
     <update id="updateUser" parameterType="com.blog.entity.User">
         update users set user_id = #{userId}, account = #{account},nick_name = #{nickName},email = #{email}, phone = #{phone}
     </update>
-    <delete id="deleteByEmail" parameterType="com.blog.entity.User">
+    <delete id="deleteByEmail" parameterType="java.lang.String">
         delete from users where email = #{email}
     </delete>
-    <select id="findByEmail" parameterType="com.blog.entity.User">
+    <select id="findByEmail" parameterType="com.blog.vo.Loginer" resultType="com.blog.entity.User">
         select
         <include refid="Base_Column_List" />
             from users where email = #{email}

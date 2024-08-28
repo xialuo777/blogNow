@@ -1,68 +1,53 @@
 package com.blog.controller;
 
-import com.blog.enums.ErrorCode;
-import com.blog.exception.BusinessException;
-import com.blog.exception.R;
-import com.blog.service.LoginService;
-import com.blog.util.LogUtil;
+import com.blog.service.MailService;
+import com.blog.service.UserService;
+
+import com.blog.util.bo.HttpSessionBO;
 import com.blog.vo.Loginer;
 import com.blog.vo.Register;
-import com.blog.entity.User;
-import com.blog.service.MailService;
-import com.blog.service.RegisterService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
-@Controller
+
+@RestController
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
+
     @Autowired
-    private RegisterService registerService;
+    @Qualifier("userService")
+    private UserService userService;
     @Autowired
+    @Qualifier("mailService")
     private MailService mailService;
     @Autowired
-    private LoginService loginService;
+    private HttpSession session;
+
+    private HttpSessionBO sessionBO;
+
 
     @PostMapping("/register")
-    public R register(@RequestBody @Validated Register register, HttpSession session){
-        User user = registerService.userRegister(register,session);
-        if (user==null){
-            LogUtil.logInfo("用户注册失败");
-            return R.error(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMessage());
-        }else {
-            LogUtil.logInfo("用户注册成功");
-            return R.ok(ErrorCode.SUCCESS.getMessage());
-        }
-
+    public void register(@RequestBody @Validated Register register){
+        userService.userRegister(register,sessionBO);
     }
     @GetMapping("/email_code")
     @ResponseBody
-    public R getCode(@Validated String email,HttpSession session){
-        boolean flag = mailService.sendCodeMailMessage(email, session);
-        if (flag){
-            return R.ok(ErrorCode.SUCCESS.getMessage());
-        }else {
-            return R.error(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMessage());
-        }
-
+    public void getCode(String email){
+        sessionBO = HttpSessionBO.getHttpSessionBO(session,email);
+        mailService.sendCodeMailMessage(email, sessionBO);
     }
 
-    @GetMapping("/loginer")
+    @GetMapping("/login")
     @ResponseBody
-    public R login(Loginer loginer){
-        try {
-            loginService.userLogin(loginer);
-            return R.ok(ErrorCode.SUCCESS.getMessage());
-        }catch (Exception e){
-            LogUtil.logError("用户登录失败",e);
-            return R.error(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMessage());
-        }
+    public void login(@Validated Loginer loginer){
+        userService.userLogin(loginer);
 
     }
 

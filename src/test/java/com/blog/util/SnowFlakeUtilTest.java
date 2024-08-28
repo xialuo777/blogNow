@@ -22,8 +22,8 @@ class SnowFlakeUtilTest {
     /*测试生成id的唯一性*/
     @Test
     public void testUniqueness() {
-        long id1 = SnowFlakeUtil.getID();
-        long id2 = SnowFlakeUtil.getID();
+        long id1 = snowFlakeUtil.getID();
+        long id2 = snowFlakeUtil.getID();
         assertTrue(id1 != id2);
     }
     /*测试生成id的连续性*/
@@ -31,7 +31,7 @@ class SnowFlakeUtilTest {
     public void testIdContinuity() {
         long[] ids = new long[100];
         for (int i = 0; i < ids.length; i++) {
-            ids[i] = SnowFlakeUtil.getID();
+            ids[i] = snowFlakeUtil.getID();
         }
         for (int i = 1; i < ids.length; i++) {
             assertTrue(ids[i] - ids[i - 1] == 1);

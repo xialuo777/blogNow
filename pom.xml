@@ -38,24 +38,19 @@
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.2.18</version>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.6</version>
         </dependency>
-        <!--测试相关-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <!--lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--安全相关（密码加密）-->
         <dependency>
@@ -64,8 +59,8 @@
         </dependency>
         <!--参数校验-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
         <!--邮箱功能-->
         <dependency>
@@ -93,11 +88,30 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
-
-
-
+        <!--测试相关-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+        </dependency>
 
     </dependencies>
+
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -109,6 +123,30 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+ <!--   <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+    </profiles>-->
 
     <build>
         <plugins>
@@ -140,6 +178,26 @@
                 </executions>
             </plugin>
         </plugins>
+
+<!--        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                &lt;!&ndash;打包时先排除掉这几个环境&ndash;&gt;
+                <excludes>
+                    <exclude>dev/*</exclude>
+                    <exclude>prod/*</exclude>
+                    <exclude>test/*</exclude>
+                </excludes>
+                <includes>
+                &lt;!&ndash;添加通用环境配置&ndash;&gt;
+                    <include>common/*</include>
+                </includes>
+            </resource>
+            <resource>
+                &lt;!&ndash;根据不同的环境将对应文件夹中的环境配置打包&ndash;&gt;
+                <directory>src/main/resources/${profiles.active}}</directory>
+            </resource>
+        </resources>-->
     </build>
 
 </project>

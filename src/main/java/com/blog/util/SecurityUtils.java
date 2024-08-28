@@ -1,10 +1,9 @@
 package com.blog.util;
 
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.EnvironmentPBEConfig;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-/**
- *
- */
 public class SecurityUtils {
     /**
      * 生成BCryptPasswordEncoder密码
@@ -25,6 +24,12 @@ public class SecurityUtils {
     public static boolean checkPassword(String password, String encode) {
         return passwordEncoder.matches(password, encode);
     }
+
+
+
+
+
+
 }
 
 

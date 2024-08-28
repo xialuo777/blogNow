@@ -23,14 +23,14 @@ public class BusinessException extends RuntimeException{
     /**
      * 异常对应的返回码
      */
-    private Integer code;
+    private static Integer code;
 
     /**
      * 异常对应的描述信息
      */
-    private String message;
+    private static String message;
 
-    private Throwable throwable;
+    private static Throwable throwable;
 
     public BusinessException() {
         super();
